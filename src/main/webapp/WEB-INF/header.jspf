@@ -1,0 +1,24 @@
+<%-- Menyn högst upp. Inkluderas i alla sidor med <%@ include file="/WEB-INF/header.jspf" %> --%>
+<%@ page import="java.util.List, webshop.ui.*" errorPage="/error.jsp" %>
+<% UserDTO currentUser = UiController.getUser(session); %>
+<html>
+<head>
+<title>Webbshop</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Webbshop</h1>
+<nav>
+<a href="index.jsp">Varor</a>
+<a href="cart.jsp">Kundkorg</a>
+<% if (currentUser == null) { %>
+    <a href="login.jsp">Logga in</a>
+    <a href="register.jsp">Registrera</a>
+<% } else { %>
+    <a href="orders.jsp">Mina ordrar</a>
+    <% if (UiController.isWarehouse(session)) { %><a href="stock.jsp">Lager</a><a href="ship.jsp">Skicka ordrar</a><% } %>
+    <% if (UiController.isAdmin(session)) { %><a href="admin.jsp">Användare</a><% } %>
+    <span>Inloggad som <%= currentUser.getUsername() %> (<%= currentUser.getRole() %>)</span>
+    <a href="logout.jsp">Logga ut</a>
+<% } %>
+</nav>
